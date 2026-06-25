@@ -1,4 +1,5 @@
 import requests
+
 from config import OLLAMA_URL, MODEL
 
 SYSTEM_PROMPT = """
@@ -19,7 +20,9 @@ You are part of the AVATAR ecosystem.
 Be concise unless asked otherwise.
 """
 
+
 def ask(prompt: str) -> str:
+
     payload = {
         "model": MODEL,
         "system": SYSTEM_PROMPT,
@@ -27,7 +30,20 @@ def ask(prompt: str) -> str:
         "stream": False
     }
 
-    response = requests.post(OLLAMA_URL, json=payload)
-    response.raise_for_status()
+    try:
 
-    return response.json()["response"]
+        response = requests.post(
+            OLLAMA_URL,
+            json=payload,
+            timeout=60
+        )
+
+        response.raise_for_status()
+
+        return response.json()["response"].strip()
+
+    except requests.exceptions.RequestException as e:
+        return f"Connection Error: {e}"
+
+    except Exception as e:
+        return f"Unexpected Error: {e}"

@@ -1,14 +1,4 @@
-from router import process
+from core.startup import start
 
-print("===== AVATAR =====")
-
-while True:
-
-    command = input("You : ")
-
-    if command.lower() == "exit":
-        break
-
-    reply = process(command)
-
-    print("\nAVATAR :", reply)
+if __name__ == "__main__":
+    start()
