@@ -1,0 +1,4 @@
+requests
+pyserial
+kokoro
+soundfile
